@@ -27,7 +27,9 @@ class WP_Core_Contributions {
 			), 'https://core.trac.wordpress.org/search' );
 			$results = wp_remote_retrieve_body( wp_remote_get( $results_url, array( 'sslverify' => false ) ) );
 
-			$pattern = '/<dt><a href="(.*?)" class="searchable">\[(.*?)\]: ((?s).*?)<\/a><\/dt>\n\s*(<dd class="searchable">.*\n?.*(?:ixes|ee) #(.*?)\n?<\/dd>)?/';
+			$results = preg_replace( '/\s+/', ' ', $results );
+			$results = str_replace( PHP_EOL, '', $results );
+			$pattern = '/<dt><a href="(.*?)" class="searchable">\[(.*?)\]: ((?s).*?)<\/a><\/dt>\s*(<dd class="searchable">.*?. #(.*?) .*?.<\/dd>)/';
 
 			preg_match_all( $pattern, $results, $matches, PREG_SET_ORDER );
 
